@@ -20,7 +20,3 @@ plugins:
 functions:
   newspapers:
     handler: handler.getNewspapers
-    # The `events` block defines how to trigger the handler.getNewspapers code
-    events:
-      - schedule: cron(15 0 * * ? *)
-      - schedule: cron(25 8 * * ? *)
