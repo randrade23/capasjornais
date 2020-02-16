@@ -7,12 +7,10 @@ deploy_service_job: &DEPLOY_SERVICE_JOB
       - node_modules
       - ${SERVICE_PATH}/node_modules
 install:
-    - npm install -g serverless
-    - cd -
+    - pwd
+    - npm install -g serverless serverless-plugin-include-dependencies
     - travis_retry npm install
 script:
-    - pwd
-    - ls
     - cd -
     - serverless deploy -s ${STAGE_NAME}
 environments:
