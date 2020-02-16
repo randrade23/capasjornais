@@ -8,11 +8,13 @@ deploy_service_job: &DEPLOY_SERVICE_JOB
       - ${SERVICE_PATH}/node_modules
 install:
     - npm install -g serverless
+    - cd -
     - travis_retry npm install
-    - cd -
 script:
-    - serverless deploy -s ${STAGE_NAME}
+    - pwd
+    - ls
     - cd -
+    - serverless deploy -s ${STAGE_NAME}
 environments:
     - &PRODUCTION_ENV
         - AWS_ACCESS_KEY_ID=${AWS_KEY_ID}
