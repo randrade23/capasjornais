@@ -3,6 +3,7 @@
 const axios = require('axios').default;
 const xml2js = require('xml2js');
 const twitter = require('twitter');
+const http = require('http');
 
 const baseUrl = "http://services.sapo.pt/News/NewsStand/";
 
@@ -90,7 +91,7 @@ module.exports.generateTweets = async (covers) => {
 
     const status = `#${category} ${cover["name"]} - ${cover["publish_date"]} ${handle}`;
 
-    sendTweet = (err, imageData) => {
+    const sendTweet = (err, imageData) => {
       if (err) {
         throw err;
       }
@@ -115,12 +116,12 @@ module.exports.generateTweets = async (covers) => {
       });
     }
 
-    getImage(cover["image_url"]);
+    getImage(cover["image_url"], sendTweet);
   } 
 }
 
 function getImage(url, callback) {
-  https.get(url, res => {
+  http.get(url, res => {
       const bufs = [];
       res.on('data', (chunk) => {
           bufs.push(chunk);
