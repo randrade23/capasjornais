@@ -11,13 +11,14 @@ service: capas-jornais
 provider:
   name: aws
   runtime: nodejs12.x
+  stage: prod
 
 plugins:
   - serverless-plugin-include-dependencies
 
   # The `functions` block defines what code to deploy
 functions:
-  helloWorld:
+  newspapers:
     handler: handler.getNewspapers
     # The `events` block defines how to trigger the handler.getNewspapers code
     events:
