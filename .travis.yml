@@ -1,0 +1,39 @@
+language: node_js
+node_js:
+  - "12"
+deploy_service_job: &DEPLOY_SERVICE_JOB
+  cache:
+    directories:
+      - node_modules
+      - ${SERVICE_PATH}/node_modules
+install:
+    - npm install -g serverless
+    - travis_retry npm install
+    - cd ${SERVICE_PATH}
+    - travis_retry npm install
+    - cd -
+script:
+    - cd ${SERVICE_PATH}
+    - serverless deploy -s ${STAGE_NAME}
+    - cd -
+environments:
+    - &PRODUCTION_ENV
+        - AWS_ACCESS_KEY_ID=${AWS_KEY_ID}
+        - AWS_SECRET_ACCESS_KEY=${AWS_KEY_SECRET}
+jobs:
+  include:
+    # master branch deploys to the 'prod' stage
+    - <<: *DEPLOY_SERVICE_JOB
+      name: "Deploy Test Users API"
+      if: type = push AND branch = master
+      env:
+        - SERVICE_PATH="users-api"
+        - STAGE_NAME=prod
+        - *PRODUCTION_ENV
+    - <<: *DEPLOY_SERVICE_JOB
+      name: "Deploy Test Experiences API"
+      if: type = push AND branch = master
+      env:
+        - SERVICE_PATH="todo-api"
+        - STAGE_NAME=prod
+        - *PRODUCTION_ENV
