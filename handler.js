@@ -40,19 +40,6 @@ const categories =
 
 const endpoints = ["National", "Sport", "Economy"]
 
-function getImage(url, callback) {
-  https.get(url, res => {
-      const bufs = [];
-      res.on('data', (chunk) => {
-          bufs.push(chunk);
-      });
-      res.on('end', () => {
-          const data = Buffer.concat(bufs);
-          callback(null, data);
-      });
-  }).on('error', callback);
-}
-
 module.exports.getNewspapers = async (event, context, callback) => {
   let responses = [];
   let parsedResponses = [];
@@ -130,4 +117,17 @@ module.exports.generateTweets = async (covers) => {
 
     getImage(cover["image_url"]);
   } 
+}
+
+function getImage(url, callback) {
+  https.get(url, res => {
+      const bufs = [];
+      res.on('data', (chunk) => {
+          bufs.push(chunk);
+      });
+      res.on('end', () => {
+          const data = Buffer.concat(bufs);
+          callback(null, data);
+      });
+  }).on('error', callback);
 }
