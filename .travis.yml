@@ -10,6 +10,8 @@ install:
     - npm install -g serverless
     - travis_retry npm install
     - cd ${SERVICE_PATH}
+    - pwd
+    - ls
     - travis_retry npm install
     - cd -
 script:
