@@ -11,7 +11,7 @@ service: capas-jornais
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: prod
+  stage: dev
 
 plugins:
   - serverless-plugin-include-dependencies
