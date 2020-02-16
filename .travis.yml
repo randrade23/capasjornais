@@ -9,12 +9,8 @@ deploy_service_job: &DEPLOY_SERVICE_JOB
 install:
     - npm install -g serverless
     - travis_retry npm install
-    - pwd
-    - ls
-    - travis_retry npm install
     - cd -
 script:
-    - cd ${SERVICE_PATH}
     - serverless deploy -s ${STAGE_NAME}
     - cd -
 environments:
