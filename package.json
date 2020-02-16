@@ -1,0 +1,29 @@
+{
+  "name": "capas-jornais",
+  "version": "1.0.0",
+  "description": "Bot do Twitter - @CapasJornais https://twitter.com/CapasJornais",
+  "main": "handler.js",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
+    "http": "^0.0.0",
+    "https": "^1.0.0",
+    "serverless-plugin-include-dependencies": "^4.0.1",
+    "twitter": "^1.7.1",
+    "xml2js": "^0.4.23"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/randrade23/capasjornais.git"
+  },
+  "author": "Rui Andrade",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/randrade23/capasjornais/issues"
+  },
+  "homepage": "https://github.com/randrade23/capasjornais#readme"
+}
