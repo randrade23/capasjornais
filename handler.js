@@ -40,10 +40,25 @@ const categories =
 
 const endpoints = ["National", "Sport", "Economy"]
 
+function getImage(url, callback) {
+  https.get(url, res => {
+      const bufs = [];
+      res.on('data', (chunk) => {
+          bufs.push(chunk);
+      });
+      res.on('end', () => {
+          const data = Buffer.concat(bufs);
+          callback(null, data);
+      });
+  }).on('error', callback);
+}
+
 module.exports.getNewspapers = async (event, context, callback) => {
   let responses = [];
   let parsedResponses = [];
   let covers = [];
+
+  const today = new Date().toISOString().split("T")[0];
 
   // Get all newsstands
   for (const endpoint of endpoints) {
@@ -62,12 +77,57 @@ module.exports.getNewspapers = async (event, context, callback) => {
     // Digging through ugly XML
     let editions = response["newsstand"]["bj_editionsgroup"]["bj_related_image"];
 
-    // Get our desired newspapers
-    editions = editions.filter(x => Object.keys(newspapers).indexOf(x["name"]) > -1);
+    // Get our desired newspapers by name and date
+    editions = editions.filter(x => Object.keys(newspapers).indexOf(x["name"]) > -1 && x["publish_date"] == today);
     
     // And save them elsewhere
     covers = covers.concat(editions);
   }
 
+  this.generateTweets(covers);
+
   callback(null, JSON.stringify(covers));
 };
+
+module.exports.generateTweets = async (covers) => {
+  let twitterClient = new twitter({
+    consumer_key: process.env.TWITTER_API_KEY,
+    consumer_secret: process.env.TWITTER_API_SECRET_KEY,
+    access_token_key: process.env.TWITTER_ACCESS_TOKEN,
+    access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+  });
+
+  for (const cover of covers) {
+    const category = categories[cover["name"]];
+    const handle = newspapers[cover["name"]];
+
+    const status = `#${category} ${cover["name"]} - ${cover["publish_date"]} ${handle}`;
+
+    sendTweet = (err, imageData) => {
+      if (err) {
+        throw err;
+      }
+
+      twitterClient.post("media/upload", {media: imageData}, function(error, media, response) {
+        if (error) {
+          console.log(error);
+        } else {
+          const tweet = {
+            status,
+            media_ids: media.media_id_string
+          }
+      
+          twitterClient.post("statuses/update", tweet, function(error, tweet, response) {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log(status);
+            }
+          });
+        }
+      });
+    }
+
+    getImage(cover["image_url"]);
+  } 
+}
