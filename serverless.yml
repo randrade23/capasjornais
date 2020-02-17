@@ -12,6 +12,8 @@ provider:
   name: aws
   runtime: nodejs12.x
   stage: prod
+  timeout: 30
+  memorySize: 384
 
 plugins:
   - serverless-plugin-include-dependencies
