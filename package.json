@@ -1,18 +1,17 @@
 {
   "name": "capas-jornais",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Bot do Twitter - @CapasJornais https://twitter.com/CapasJornais",
   "main": "handler.js",
   "dependencies": {
     "axios": "^0.21.2",
     "dotenv": "^8.2.0",
+    "glob": "^10.3.10",
     "http": "^0.0.0",
     "https": "^1.0.0",
-    "serverless-plugin-include-dependencies": "^4.0.1",
-    "twitter": "^1.7.1",
-    "xml2js": "^0.4.23"
+    "twitter-api-v2": "^1.15.2",
+    "xml2js": "^0.6.2"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/randrade23/capasjornais/issues"
   },
-  "homepage": "https://github.com/randrade23/capasjornais#readme"
+  "homepage": "https://github.com/randrade23/capasjornais#readme",
+  "devDependencies": {
+    "serverless-plugin-include-dependencies": "^5.1.0"
+  }
 }

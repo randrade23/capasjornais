@@ -10,11 +10,14 @@ service: capas-jornais
 # The `provider` block defines where your service will be deployed
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs18.x
   stage: prod
   timeout: 30
   memorySize: 384
-
+ 
+package:
+  excludeDevDependencies: false
+  
 plugins:
   - serverless-plugin-include-dependencies
 

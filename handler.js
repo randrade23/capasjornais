@@ -2,7 +2,7 @@
 
 const axios = require('axios').default;
 const xml2js = require('xml2js');
-const twitter = require('twitter');
+const { TwitterApi } = require('twitter-api-v2');
 const http = require('http');
 
 const baseUrl = "http://services.sapo.pt/News/NewsStand/";
@@ -78,11 +78,11 @@ module.exports.getNewspapers = async (event, context, callback) => {
 };
 
 module.exports.generateTweets = async (covers) => {
-  let twitterClient = new twitter({
-    consumer_key: process.env.TWITTER_API_KEY,
-    consumer_secret: process.env.TWITTER_API_SECRET_KEY,
-    access_token_key: process.env.TWITTER_ACCESS_TOKEN,
-    access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+  let twitterClient = new TwitterApi({
+    appKey: process.env.TWITTER_API_KEY,
+    appSecret: process.env.TWITTER_API_SECRET_KEY,
+    accessToken: process.env.TWITTER_ACCESS_TOKEN,
+    accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET
   });
 
   for (const cover of covers) {
@@ -91,29 +91,22 @@ module.exports.generateTweets = async (covers) => {
 
     const status = `#${category} ${cover["name"]} - ${cover["publish_date"]} ${handle}`;
 
-    const sendTweet = (err, imageData) => {
+    const sendTweet = async (err, imageBuffer) => {
       if (err) {
         throw err;
       }
 
-      twitterClient.post("media/upload", {media: imageData}, function(error, media, response) {
-        if (error) {
-          console.log(error);
-        } else {
-          const tweet = {
-            status,
-            media_ids: media.media_id_string
-          }
+      try {
+        const mediaIds = await twitterClient.v1.uploadMedia(imageBuffer, { type: 'png' })
       
-          twitterClient.post("statuses/update", tweet, function(error, tweet, response) {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log(status);
-            }
-          });
-        }
-      });
+        await twitterClient.v2.tweet({
+          text: status,
+          media: { media_ids: [mediaIds] }
+        })
+      }
+      catch (e) {
+        console.error(e)
+      }
     }
 
     getImage(cover["image_url"], sendTweet);
