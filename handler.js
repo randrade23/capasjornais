@@ -10,13 +10,13 @@ const baseUrl = "http://services.sapo.pt/News/NewsStand/";
 const newspapers = 
   {
     "Expresso": "@expresso", 
-    "SOL": "@solonline", 
+    "Nascer do SOL": "@solonline", 
     "Correio da Manhã": "@cmjornal", 
     "Jornal de Notícias": "@jornalnoticias", 
     "Público": "@publico", 
     "Diário de Notícias": "@dntwit", 
     "i": "@itwitting", 
-    "Diário Económico": "@diarioeconomico", 
+    "O Jornal Económico": "@ojeconomico", 
     "Jornal de Negócios": "@JNegocios", 
     "O Jogo": "@ojogo", 
     "A Bola": "@abolapt", 
@@ -26,13 +26,13 @@ const newspapers =
 const categories = 
   {
     "Expresso": "Notícias", 
-    "SOL": "Notícias", 
+    "Nascer do SOL": "Notícias", 
     "Correio da Manhã": "Notícias", 
     "Jornal de Notícias": "Notícias", 
     "Público": "Notícias", 
     "Diário de Notícias": "Notícias", 
     "i": "Notícias", 
-    "Diário Económico": "Economia", 
+    "O Jornal Económico": "Economia", 
     "Jornal de Negócios": "Economia", 
     "O Jogo": "Desporto", 
     "A Bola": "Desporto", 
