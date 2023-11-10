@@ -4,7 +4,7 @@
   "description": "Bot do Twitter - @CapasJornais https://twitter.com/CapasJornais",
   "main": "handler.js",
   "dependencies": {
-    "axios": "^0.21.2",
+    "axios": "^1.6.0",
     "dotenv": "^8.2.0",
     "glob": "^10.3.10",
     "http": "^0.0.0",
