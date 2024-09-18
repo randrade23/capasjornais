@@ -22,12 +22,21 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 }
 
+sourceSets {
+    main {
+        kotlin.srcDirs("src/main/kotlin")
+    }
+    test {
+        kotlin.srcDirs("src/test/kotlin")
+    }
+}
+
 tasks.test {
     useJUnitPlatform()
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(17)
 }
 
 application {
